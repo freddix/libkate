@@ -1,7 +1,8 @@
+# based on PLD Linux spec git://git.pld-linux.org/packages/libkate.git
 Summary:	Libraries to handle the Kate bitstream format
 Name:		libkate
 Version:	0.4.1
-Release:	1
+Release:	2
 License:	BSD
 Group:		Libraries
 #Source0Download: http://code.google.com/p/libkate/downloads/list
@@ -61,7 +62,7 @@ This package contains the documentation for Kate libraries.
 # don't fail on warnings
 %{__sed} -i "s|-Werror ||" configure.ac
 
-# We regenerate these files at built step
+# force regenerate
 %{__rm} tools/kate_parser.{c,h}
 %{__rm} tools/kate_lexer.c
 
@@ -83,6 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	INSTALL="install -p"
+
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
 
 # Fix for header timestramps
 touch -r $RPM_BUILD_ROOT%{_includedir}/kate/kate_config.h $RPM_BUILD_ROOT%{_includedir}/kate/kate.h
@@ -109,8 +112,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkate.so
 %attr(755,root,root) %{_libdir}/liboggkate.so
 %{_includedir}/kate
-%{_libdir}/libkate.la
-%{_libdir}/liboggkate.la
 %{_pkgconfigdir}/kate.pc
 %{_pkgconfigdir}/oggkate.pc
 
